@@ -23,7 +23,7 @@ You can have a look at the data here: [01 - FarmOn Coding Challenge.ipynb](pipel
 ### Challenge
 1. Look at the data and come up with an idea on how to calculate the carbon potential for each field. The carbon potential is the difference between the current SOC and the SOC that could be stored in the soil.
 3. Store the information in the MongoDB database using the [/parcels/add_parcels](http://localhost:8080/parcels/add_parcels) endpoint.
-4. Implement an API endpoint [here](api/app/routers/carbon_potential.py) that returns a single field for a given location with its carbon content and the carbon potential. Don't forget to write and run tests for the API endpoint.
+4. Implement an API endpoint [here](api/app/routers/parcels.py) that returns a single field for a given location with its carbon content and the carbon potential. Don't forget to write and run tests for the API endpoint.
 5. Present the data through a simple UI. You can use any technology you like. The UI should be able to show the carbon content and the carbon potential for a given location. Integrate the UI into the current docker setup.
 
 
@@ -37,7 +37,7 @@ You can have a look at the data here: [01 - FarmOn Coding Challenge.ipynb](pipel
 
 ## Submission Guidelines
 
-1. **Code Repository**: Submit your code in a Git repository (GitHub, GitLab, etc.).
+1. **Code Repository**: Submit your code in a Git repository (GitHub).
 2. **Documentation**: Extend the README with:
    - Setup instructions
    - How to run the code

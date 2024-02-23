@@ -10,4 +10,4 @@ except IOError:
 def test_root(client_test: TestClient):
     response = client_test.get("/")
     assert response.status_code == 200
-    assert response.json() == {"message": "Hello!"}
+    assert response.json() == {"message":"All Creatures Welcome!"}

@@ -1,12 +1,8 @@
 import typing as t
 
-import shapely
 from app.schemas.schemas import Parcel, ParcelDB
-from beanie.operators import GeoWithin, Near
 from fastapi import APIRouter, Query
-from pymongo import GEOSPHERE
 from shapely.geometry import mapping, shape
-from shapely.ops import transform
 
 router = APIRouter(
     prefix="/parcels",

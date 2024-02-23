@@ -1,15 +1,9 @@
-import asyncio
 import typing as t
-from enum import Enum
-from typing import Optional
 
 import pymongo
-from beanie import Document, init_beanie
-from motor.motor_asyncio import AsyncIOMotorClient
-from pydantic import BaseModel, Field
+from beanie import Document
+from pydantic import BaseModel
 from pymongo import IndexModel
-
-
 
 
 class Geometry(BaseModel):

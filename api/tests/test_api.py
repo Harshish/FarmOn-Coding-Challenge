@@ -1,7 +1,6 @@
 import dotenv
 from fastapi.testclient import TestClient
 
-
 try:
     dotenv.load_dotenv()
 except IOError:

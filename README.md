@@ -53,7 +53,7 @@ You can have a look at the data here: [01 - FarmOn Coding Challenge.ipynb](pipel
 
 ## Deadline
 
-Submit your solution latest 4 days after receiving the challenge.
+Submit your solution latest 5 working days after receiving the challenge.
 
 ## Questions
 

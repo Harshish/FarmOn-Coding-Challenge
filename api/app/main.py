@@ -13,6 +13,17 @@ app = FastAPI(
     version="0.0.1",
 )
 
+########### ONLY FOR TESTING UI #####
+from fastapi.middleware.cors import CORSMiddleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+########### END #####################
+
 def init_logging():
     parcels.logger = logging.getLogger(__name__)
     parcels.logger.setLevel(logging.DEBUG)

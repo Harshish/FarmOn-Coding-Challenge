@@ -81,3 +81,6 @@ You can find the passwords in the [.env.example](.env.example) file.
 ## Tips
 - Keep in mind that geo data has different types of projections. Make sure to use the right one for your calculations.
 - When connecting to the API through jupyter lab, make sure to use the right URL. It should be `http://api:8080` instead of `http://localhost:8080`.
+
+## Added UI for querying
+![plot](UI_SC.png)

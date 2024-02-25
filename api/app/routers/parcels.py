@@ -3,6 +3,14 @@ import typing as t
 from app.schemas.schemas import Parcel, ParcelDB
 from fastapi import APIRouter, Query
 from shapely.geometry import mapping, shape
+from bson.son import SON
+import geopandas as gpd
+from shapely.geometry import Point
+import pandas as pd
+from beanie.odm.operators.find.geospatial import Near
+
+logger = None
+MAX_DISTANCE = 100000
 
 router = APIRouter(
     prefix="/parcels",
@@ -21,13 +29,13 @@ def validate_and_correct_geometry(geometry):
 
 @router.post("/add_parcels")
 async def add_parcels(parcels: t.Union[Parcel, t.List[Parcel]]) -> t.List[str]:
+    if not isinstance(parcels, list):
+        parcels = [parcels]
     if len(parcels) > 50:
         return [
             "Too many parcels to add at once. Please add 50 or fewer parcels at a time."
         ]
     success = []
-    if not isinstance(parcels, list):
-        parcels = [parcels]
     for parcel in parcels:
         parcel.geometry = validate_and_correct_geometry(parcel.geometry)
         existing_doc = await ParcelDB.find_one(ParcelDB.objectid == parcel.objectid)
@@ -43,11 +51,27 @@ async def add_parcels(parcels: t.Union[Parcel, t.List[Parcel]]) -> t.List[str]:
             success.append("Parcel already exists")
     return success
 
-
 @router.get("/find_parcel_by_location")
 async def find_parcel_by_location(
     latitude: float = Query(...),
     longitude: float = Query(...),
     crs: str = Query("EPSG:4326"),
-) -> Parcel:
-    pass
+) -> ParcelDB | str:
+    geometry = [Point((longitude,latitude))]
+
+    df = pd.DataFrame({'longitude': [longitude], 'latitude': [latitude]})
+    geometry = gpd.points_from_xy(df.longitude, df.latitude, crs=crs)
+    gdf = gpd.GeoDataFrame(df, geometry=geometry, crs=crs)
+    gdf = gdf.to_crs("EPSG:4326")
+
+    x, y = gdf.iloc[0]["geometry"].x, gdf.iloc[0]["geometry"].y
+    logger.debug(f"Queried coords: {x},{y}")
+    try:
+        query = Near(ParcelDB.centroid, x, y, min_distance=0, max_distance=MAX_DISTANCE)
+        logger.debug(query)
+        val = await ParcelDB.find_one(query)
+        if not val:
+            return f"No feilds found within radius {MAX_DISTANCE} m"
+        return val
+    except Exception as e:
+        return repr(e)

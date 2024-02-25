@@ -37,4 +37,5 @@ RUN touch /code/.env
 
 COPY entrypoint.sh /code/entrypoint.sh
 
-ENTRYPOINT ["/bin/bash", "./entrypoint.sh"]
+#ENTRYPOINT ["/bin/bash", "./entrypoint.sh"]
+ENTRYPOINT ["uvicorn", "app.main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "8080", "--reload"]

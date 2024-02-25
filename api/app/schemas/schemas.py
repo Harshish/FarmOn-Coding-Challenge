@@ -16,11 +16,14 @@ class Parcel(BaseModel):
     area: float
     crop_type: str
     geometry: Geometry
+    centroid: Geometry
+    soc: float
 
 class ParcelDB(Document, Parcel):
     class Settings:
         name = "Parcel"
         indexes = [
+            [("centroid", pymongo.GEOSPHERE)],
             IndexModel([("objectid", pymongo.ASCENDING)], unique=True),
             IndexModel([("area", pymongo.ASCENDING)]),
             IndexModel([("crop_type", pymongo.ASCENDING)]),
